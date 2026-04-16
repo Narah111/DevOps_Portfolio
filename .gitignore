@@ -88,3 +88,7 @@ frontend/.env
 # General
 .env
 .DS_Store
+
+#for local development
+local_db.json
+venv/

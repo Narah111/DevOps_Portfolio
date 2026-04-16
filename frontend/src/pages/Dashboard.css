@@ -1,57 +1,103 @@
 .dashboard {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  min-height: 100vh;
 }
 
+/* Header & Stats */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .dashboard-header h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 2rem;
   color: var(--text-primary);
+  margin: 0;
 }
 
 .dashboard-header h1 span {
   color: var(--accent);
 }
 
+.stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Layout för innehållet */
 .dashboard-content {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 2rem;
+  grid-template-columns: 350px 1fr; /* Fast bredd för formulär, resten för listan */
+  gap: 2.5rem;
   align-items: start;
 }
 
+/* Felmeddelande */
+.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--high);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--high);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Loading state */
 .loading {
   text-align: center;
-  padding: 3rem;
   color: var(--text-secondary);
+  font-style: italic;
+  padding: 3rem;
 }
 
-.error {
-  text-align: center;
-  padding: 1rem;
-  color: var(--high);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--high);
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 768px) {
+/* Responsivitet för mindre skärmar */
+@media (max-width: 900px) {
   .dashboard-content {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Stapla dem på varandra på mobilen */
   }
-
+  
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
   .stats {
-    display: none;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .stat {
+    flex: 1;
   }
 }

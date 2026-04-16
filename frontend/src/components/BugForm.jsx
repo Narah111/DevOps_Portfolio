@@ -1,32 +1,29 @@
-import { useState } from 'react'
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react'
 import './BugForm.css'
 
-function BugForm({ apiUrl, onBugCreated }) {
+function BugForm({ onSubmit }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState('Medium')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    // Vi lägger till e.preventDefault() ifall du använder en <form>-tagg senare
+    if (e) e.preventDefault();
+    
     if (!title.trim()) return
-
+    setLoading(true)
+    
     try {
-      setLoading(true)
-      const response = await fetch(`${apiUrl}/bugs`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, priority })
-      })
-      const newBug = await response.json()
-      onBugCreated(newBug)
-      setTitle('')
-      setDescription('')
-      setPriority('Medium')
-      setError(null)
-    } catch (err) {
-      setError('Could not create bug.')
+      const success = await onSubmit({ title, description, priority })
+      if (success) {
+        setTitle('')
+        setDescription('')
+        setPriority('Medium')
+      }
+    } catch (error) {
+      console.error("Kunde inte skicka buggen:", error)
     } finally {
       setLoading(false)
     }
@@ -35,25 +32,26 @@ function BugForm({ apiUrl, onBugCreated }) {
   return (
     <div className="bug-form">
       <h2>Report a Bug</h2>
-      {error && <div className="form-error">{error}</div>}
       <div className="form-group">
         <label>Title *</label>
         <input
           type="text"
-          placeholder="Short description of the bug..."
+          placeholder="Short description..."
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
       </div>
+      
       <div className="form-group">
         <label>Description</label>
         <textarea
-          placeholder="Steps to reproduce, expected vs actual behavior..."
+          placeholder="Steps to reproduce..."
           value={description}
           onChange={e => setDescription(e.target.value)}
           rows={4}
         />
       </div>
+
       <div className="form-group">
         <label>Priority</label>
         <div className="priority-buttons">
@@ -61,7 +59,7 @@ function BugForm({ apiUrl, onBugCreated }) {
             <button
               key={p}
               type="button"
-              className={`priority-btn priority-${p.toLowerCase()} ${priority === p ? 'active' : ''}`}
+              className={`priority-btn ${priority === p ? 'active' : ''}`}
               onClick={() => setPriority(p)}
             >
               {p}
@@ -69,6 +67,7 @@ function BugForm({ apiUrl, onBugCreated }) {
           ))}
         </div>
       </div>
+
       <button
         className="submit-btn"
         onClick={handleSubmit}

@@ -1,4 +1,9 @@
 terraform {
+  backend "s3" {
+    bucket = "bug-tracker-tfstate-narah111"
+    key    = "terraform.tfstate"
+    region = "eu-north-1"
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"

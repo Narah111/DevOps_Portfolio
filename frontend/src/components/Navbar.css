@@ -46,3 +46,16 @@
   border-color: var(--high);
   color: var(--high);
 }
+
+.navbar-about {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.navbar-about:hover {
+  color: var(--text-primary);
+}

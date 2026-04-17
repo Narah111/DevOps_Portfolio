@@ -11,12 +11,13 @@ variable "project_name" {
 }
 
 variable "github_username" {
-  description = "Narah111"
+  description = "Your GitHub username"
   type        = string
+  default     = "Narah111"
 }
 
 variable "github_repo" {
-  description = "DevOps Portfolio"
+  description = "Your GitHub repository name"
   type        = string
   default     = "DevOps_Portfolio"
 }

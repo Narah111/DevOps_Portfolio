@@ -47,8 +47,15 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # ← samma som ovan
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: eu-north-1
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: tofu init
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -63,16 +70,14 @@ jobs:
         working-directory: frontend
         run: npm run build
 
-      - name: Get S3 bucket name from Terraform output
+      - name: Upload frontend to S3
         working-directory: terraform
         run: |
-          echo "BUCKET_NAME=$(tofu output -raw frontend_bucket_name)" >> $GITHUB_ENV
-
-      - name: Upload frontend to S3
-        run: |
-          aws s3 sync frontend/dist s3://${{ env.BUCKET_NAME }} --delete
+          BUCKET_NAME=$(tofu output -raw frontend_bucket_name)
+          aws s3 sync ../frontend/dist s3://$BUCKET_NAME --delete
 
       - name: Invalidate CloudFront cache
+        working-directory: terraform
         run: |
-          DISTRIBUTION_ID=$(cd terraform && tofu output -raw cloudfront_distribution_id)
+          DISTRIBUTION_ID=$(tofu output -raw cloudfront_distribution_id)
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"

@@ -33,7 +33,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform
-        run: tofu apply -auto-approve -var="github_username=${{ secrets.GITHUB_USERNAME }}"  # ← du lägger till detta i GitHub senare
+        run: tofu apply -auto-approve -var="github_username=${{ secrets.GH_USERNAME }}"  # ← du lägger till detta i GitHub senare
 
   deploy-frontend:
     name: Build and Deploy React Frontend

@@ -6,13 +6,14 @@ function LandingPage() {
 
   return (
     <div className="landing">
-      <nav className="landing-nav">
+        <nav className="landing-nav">
         <span className="landing-logo">Bug<span>Tracker</span></span>
         <div className="landing-nav-links">
-          <button onClick={() => navigate('/login')} className="btn-ghost">Sign in</button>
-          <button onClick={() => navigate('/register')} className="btn-primary">Get started</button>
+            <button onClick={() => navigate('/about')} className="btn-ghost">About</button>
+            <button onClick={() => navigate('/login')} className="btn-ghost">Sign in</button>
+            <button onClick={() => navigate('/register')} className="btn-primary">Get started</button>
         </div>
-      </nav>
+        </nav>
 
       <main className="landing-hero">
         <div className="hero-badge">Built on AWS · Serverless · IaC</div>

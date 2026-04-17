@@ -18,5 +18,5 @@ variable "github_username" {
 variable "github_repo" {
   description = "DevOps Portfolio"
   type        = string
-  default     = "aws-serverless-api"
+  default     = "DevOps_Portfolio"
 }

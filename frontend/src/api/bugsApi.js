@@ -1,5 +1,5 @@
 // ⚠️ Replace with your API Gateway URL after running terraform apply
-const API_URL = 'https://xb2t4mn31i.execute-api.eu-north-1.amazonaws.com/prod'
+const API_URL = 'https://uwyh40guu6.execute-api.eu-north-1.amazonaws.com/prod'
 
 export const getAllBugs = async () => {
   const response = await fetch(`${API_URL}/bugs`)

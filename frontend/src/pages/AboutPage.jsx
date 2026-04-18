@@ -26,7 +26,7 @@ function AboutPage() {
             No secrets or credentials are stored in the codebase. All sensitive data is managed via
             <span className="highlight"> AWS OIDC roles</span> and
             <span className="highlight"> GitHub Actions Secrets</span> to demonstrate
-            industry-standard security practices.
+            industry standard security practices.
             </p>
         </div>
         </div>
@@ -36,8 +36,8 @@ function AboutPage() {
           <div className="about-hero-text">
             <h1>About this project</h1>
             <p>
-              A fully serverless bug tracker built to demonstrate real-world DevOps
-              skills — infrastructure as code, CI/CD pipelines, cloud-native architecture,
+              A fully serverless bug tracker built to demonstrate real world DevOps
+              skills — infrastructure as code (IaC), CI/CD pipelines, cloud-native architecture,
               and modern frontend development.
             </p>
           </div>
@@ -162,13 +162,13 @@ function AboutPage() {
               <p>
                 I'm a DevOps engineer currently completing my Higher Vocational Education
                 Diploma at JENSEN yrkeshögskola (expected 2026). I have hands-on experience
-                building production systems — from AI chatbots and Kubernetes orchestration
+                building production systems from AI chatbots and Kubernetes orchestration
                 to automated testing pipelines and cloud infrastructure.
               </p>
               <p>
                 I built this project to demonstrate end-to-end DevOps skills: provisioning
                 cloud infrastructure with IaC, building a serverless backend, developing a
-                modern frontend, and automating deployments with CI/CD — all from scratch.
+                modern frontend, and automating deployments with CI/CD all from scratch.
               </p>
               <div className="about-me-links">
                 <a
@@ -221,7 +221,7 @@ function AboutPage() {
       </main>
 
       <footer className="about-footer">
-        <p>Built by Nasir Rahmanzada · React · AWS Lambda · DynamoDB · Cognito · OpenTofu</p>
+        <p>Built by Nasir Rahmanzada | React · AWS Lambda · DynamoDB · Cognito · OpenTofu</p>
       </footer>
     </div>
   )

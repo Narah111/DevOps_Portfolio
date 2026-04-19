@@ -1,5 +1,4 @@
 import { useBugs } from '../hooks/useBugs'
-import { useAuth } from '../hooks/useAuth'
 import Navbar from '../components/Navbar'
 import BugForm from '../components/BugForm'
 import BugList from '../components/BugList'
@@ -7,11 +6,10 @@ import './Dashboard.css'
 
 function Dashboard() {
   const { bugs, loading, error, stats, handleCreateBug, handleStatusUpdate, handleDelete } = useBugs()
-  const { user } = useAuth()
 
   return (
     <>
-      <Navbar userEmail={user?.email} />
+      <Navbar />
       <div className="dashboard">
         <div className="dashboard-stats">
           <div className="stat">

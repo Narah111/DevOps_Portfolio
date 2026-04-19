@@ -32,9 +32,31 @@ resource "aws_iam_role_policy" "lambda_dynamodb" {
         "dynamodb:PutItem",
         "dynamodb:UpdateItem",
         "dynamodb:DeleteItem",
-        "dynamodb:Scan"
+        "dynamodb:Scan",
+        "dynamodb:Query"
       ]
       Resource = aws_dynamodb_table.bugs.arn
+    }]
+  })
+}
+
+# Allow Lambda to interact with Cognito
+resource "aws_iam_role_policy" "lambda_cognito" {
+  name = "${var.project_name}-lambda-cognito"
+  role = aws_iam_role.lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "cognito-idp:InitiateAuth",
+        "cognito-idp:SignUp",
+        "cognito-idp:ConfirmSignUp",
+        "cognito-idp:GetUser",
+        "cognito-idp:GlobalSignOut"
+      ]
+      Resource = aws_cognito_user_pool.main.arn
     }]
   })
 }

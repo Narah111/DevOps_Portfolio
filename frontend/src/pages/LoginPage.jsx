@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { login as loginApi } from '../api/authApi'
 import './AuthPage.css'
 
 function LoginPage() {
@@ -16,16 +17,20 @@ function LoginPage() {
     setLoading(true)
     setError(null)
 
-    // Temporary mock login – will be replaced with Cognito later
-    setTimeout(() => {
-      if (password.length >= 8) {
-        login(email)
-        navigate('/dashboard')
-      } else {
-        setError('Invalid email or password.')
-        setLoading(false)
-      }
-    }, 800)
+    try {
+      const data = await loginApi(email, password)
+      login({
+        email: data.email,
+        name: data.name,
+        family_name: data.family_name,
+        sub: data.sub
+      })
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

@@ -1,12 +1,19 @@
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 import './Navbar.css'
 
-function Navbar({ userEmail }) {
+function Navbar() {
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout()
     navigate('/')
   }
+
+  const displayName = user?.name && user?.family_name
+    ? `${user.name} ${user.family_name}`
+    : user?.email
 
   return (
     <nav className="navbar">
@@ -15,7 +22,7 @@ function Navbar({ userEmail }) {
         <button className="navbar-about" onClick={() => navigate('/about')}>
           About
         </button>
-        <span className="navbar-email">{userEmail}</span>
+        <span className="navbar-email">{displayName}</span>
         <button className="navbar-logout" onClick={handleLogout}>
           Sign out
         </button>

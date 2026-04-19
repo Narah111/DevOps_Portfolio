@@ -68,7 +68,9 @@ jobs:
 
       - name: Build React app
         working-directory: frontend
-        run: npm run build
+        run: |
+          echo "VITE_API_URL=$(cd ../terraform && tofu output -raw api_url | sed 's|/bugs||')" > .env
+          npm run build
 
       - name: Upload frontend to S3
         working-directory: terraform

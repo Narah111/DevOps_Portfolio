@@ -94,3 +94,6 @@ frontend/.env.local
 local_db.json
 venv/
 local_users.json
+
+# temporary files
+lambda.zip

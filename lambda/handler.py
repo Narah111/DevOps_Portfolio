@@ -1,43 +1,48 @@
 import json
-import boto3
-import uuid
-from datetime import datetime
+from utils import get_cors_headers, get_user_from_cookie, unauthorized
+from auth import register, confirm, login, logout, get_me
+from bugs import get_all_bugs, create_bug, update_bug, delete_bug
 
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('bugs')
 
 def lambda_handler(event, context):
     method = event['httpMethod']
     path = event['path']
-
-    headers = {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    }
+    headers = get_cors_headers()
 
     # CORS preflight
     if method == 'OPTIONS':
         return {'statusCode': 200, 'headers': headers, 'body': ''}
 
     try:
-        if method == 'GET' and path == '/bugs':
-            return get_all_bugs(headers)
+        # Auth routes
+        if path == '/auth/register' and method == 'POST':
+            return register(event, headers)
+        elif path == '/auth/confirm' and method == 'POST':
+            return confirm(event, headers)
+        elif path == '/auth/login' and method == 'POST':
+            return login(event, headers)
+        elif path == '/auth/logout' and method == 'POST':
+            return logout(event, headers)
+        elif path == '/auth/me' and method == 'GET':
+            return get_me(event, headers)
 
+        # Bug routes - require authentication
+        user = get_user_from_cookie(event)
+        if not user:
+            return unauthorized(headers)
+
+        if method == 'GET' and path == '/bugs':
+            return get_all_bugs(user['sub'], headers)
         elif method == 'POST' and path == '/bugs':
             body = json.loads(event['body'])
-            return create_bug(body, headers)
-
+            return create_bug(body, user['sub'], headers)
         elif method == 'PUT' and '/bugs/' in path:
             bug_id = path.split('/')[-1]
             body = json.loads(event['body'])
-            return update_bug(bug_id, body, headers)
-
+            return update_bug(bug_id, body, user['sub'], headers)
         elif method == 'DELETE' and '/bugs/' in path:
             bug_id = path.split('/')[-1]
-            return delete_bug(bug_id, headers)
-
+            return delete_bug(bug_id, user['sub'], headers)
         else:
             return {
                 'statusCode': 404,
@@ -51,54 +56,3 @@ def lambda_handler(event, context):
             'headers': headers,
             'body': json.dumps({'error': str(e)})
         }
-
-
-def get_all_bugs(headers):
-    response = table.scan()
-    bugs = sorted(response['Items'], key=lambda x: x['createdAt'], reverse=True)
-    return {
-        'statusCode': 200,
-        'headers': headers,
-        'body': json.dumps(bugs)
-    }
-
-
-def create_bug(body, headers):
-    bug = {
-        'id': str(uuid.uuid4()),
-        'title': body['title'],
-        'description': body.get('description', ''),
-        'priority': body.get('priority', 'Medium'),
-        'status': 'Open',
-        'createdAt': datetime.utcnow().isoformat()
-    }
-    table.put_item(Item=bug)
-    return {
-        'statusCode': 201,
-        'headers': headers,
-        'body': json.dumps(bug)
-    }
-
-
-def update_bug(bug_id, body, headers):
-    response = table.update_item(
-        Key={'id': bug_id},
-        UpdateExpression='SET #s = :s',
-        ExpressionAttributeNames={'#s': 'status'},
-        ExpressionAttributeValues={':s': body['status']},
-        ReturnValues='ALL_NEW'
-    )
-    return {
-        'statusCode': 200,
-        'headers': headers,
-        'body': json.dumps(response['Attributes'])
-    }
-
-
-def delete_bug(bug_id, headers):
-    table.delete_item(Key={'id': bug_id})
-    return {
-        'statusCode': 200,
-        'headers': headers,
-        'body': json.dumps({'message': 'Bug deleted'})
-    }

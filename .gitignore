@@ -84,6 +84,7 @@ lambda/handler.zip
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+frontend/.env.local
 
 # General
 .env
@@ -92,3 +93,4 @@ frontend/.env
 #for local development
 local_db.json
 venv/
+local_users.json

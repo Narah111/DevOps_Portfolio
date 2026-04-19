@@ -19,7 +19,12 @@ function LoginPage() {
 
     try {
       const data = await loginApi(email, password)
-      login({ email: data.email })
+      login({
+        email: data.email,
+        name: data.name,
+        family_name: data.family_name,
+        sub: data.sub
+      })
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)

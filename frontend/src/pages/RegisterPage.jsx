@@ -7,16 +7,21 @@ import './AuthPage.css'
 function RegisterPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
-  const [step, setStep] = useState('register') // 'register' | 'confirm'
+  const [step, setStep] = useState('register')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [name, setName] = useState('')
+  const [familyName, setFamilyName] = useState('')
   const [code, setCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   const handleRegister = async () => {
-    if (!email || !password || !confirmPassword) return
+    if (!email || !password || !confirmPassword || !name || !familyName) {
+      setError('All fields are required.')
+      return
+    }
     if (password !== confirmPassword) {
       setError('Passwords do not match.')
       return
@@ -29,7 +34,7 @@ function RegisterPage() {
     setError(null)
 
     try {
-      await registerApi(email, password)
+      await registerApi(email, password, name, familyName)
       setStep('confirm')
     } catch (err) {
       setError(err.message)
@@ -45,9 +50,13 @@ function RegisterPage() {
 
     try {
       await confirmEmail(email, code)
-      // Auto login after confirmation
       const data = await loginApi(email, password)
-      login({ email: data.email })
+      login({
+        email: data.email,
+        name: data.name,
+        family_name: data.family_name,
+        sub: data.sub
+      })
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)
@@ -110,6 +119,26 @@ function RegisterPage() {
         {error && <div className="auth-error">{error}</div>}
 
         <div className="auth-form">
+          <div className="form-row">
+            <div className="form-group">
+              <label>First name</label>
+              <input
+                type="text"
+                placeholder="Nasir"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Last name</label>
+              <input
+                type="text"
+                placeholder="Rahmanzada"
+                value={familyName}
+                onChange={e => setFamilyName(e.target.value)}
+              />
+            </div>
+          </div>
           <div className="form-group">
             <label>Email</label>
             <input
@@ -140,7 +169,7 @@ function RegisterPage() {
           <button
             className="auth-btn"
             onClick={handleRegister}
-            disabled={loading || !email || !password || !confirmPassword}
+            disabled={loading || !email || !password || !confirmPassword || !name || !familyName}
           >
             {loading ? 'Creating account...' : 'Create account'}
           </button>

@@ -46,7 +46,8 @@ resource "aws_iam_role_policy" "github_actions" {
           "s3:*",
           "cloudfront:*",
           "iam:*",
-          "logs:*"
+          "logs:*",
+          "cognito-idp:*"
         ]
         Resource = "*"
       },

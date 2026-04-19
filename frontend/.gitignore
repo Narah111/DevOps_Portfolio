@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local development
+local_db.json
+venv/
+frontend/.env
+frontend/.env.local

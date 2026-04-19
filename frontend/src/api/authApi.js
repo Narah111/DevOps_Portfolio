@@ -1,11 +1,11 @@
 const API_URL = import.meta.env.VITE_API_URL
 
-export const register = async (email, password) => {
+export const register = async (email, password, name, family_name) => {
   const response = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password, name, family_name })
   })
   const data = await response.json()
   if (!response.ok) throw new Error(data.error || 'Registration failed')

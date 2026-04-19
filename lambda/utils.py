@@ -17,7 +17,6 @@ def get_cors_headers():
     }
 
 def get_user_from_cookie(event):
-    # Extract access token from cookie header
     cookies = event.get('headers', {}).get('Cookie', '') or \
               event.get('headers', {}).get('cookie', '')
 
@@ -36,12 +35,16 @@ def get_user_from_cookie(event):
 
     try:
         response = cognito.get_user(AccessToken=token)
-        user = {'sub': None, 'email': None}
+        user = {'sub': None, 'email': None, 'name': None, 'family_name': None}
         for attr in response['UserAttributes']:
             if attr['Name'] == 'sub':
                 user['sub'] = attr['Value']
             elif attr['Name'] == 'email':
                 user['email'] = attr['Value']
+            elif attr['Name'] == 'name':
+                user['name'] = attr['Value']
+            elif attr['Name'] == 'family_name':
+                user['family_name'] = attr['Value']
         return user
     except Exception:
         return None

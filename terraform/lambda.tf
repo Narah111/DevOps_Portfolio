@@ -20,7 +20,7 @@ resource "aws_lambda_function" "bug_tracker" {
       TABLE_NAME        = aws_dynamodb_table.bugs.name
       USER_POOL_ID      = aws_cognito_user_pool.main.id
       CLIENT_ID         = aws_cognito_user_pool_client.main.id
-      FRONTEND_URL      = "https://${aws_cloudfront_distribution.frontend.domain_name}"
+      FRONTEND_URL      = "https://www.bugtracker.se"
     }
   }
 

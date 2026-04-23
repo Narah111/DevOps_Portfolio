@@ -4,8 +4,8 @@ output "api_url" {
 }
 
 output "frontend_url" {
-  description = "The URL of the frontend (CloudFront)"
-  value       = "https://${aws_cloudfront_distribution.frontend.domain_name}"
+  description = "The URL of the frontend"
+  value       = "https://www.bugtracker.se"
 }
 
 output "github_actions_role_arn" {

@@ -21,3 +21,9 @@ variable "github_repo" {
   type        = string
   default     = "DevOps_Portfolio"
 }
+
+variable "domain_name" {
+  description = "The domain name for the API"
+  type        = string
+  default     = "bugtracker.se"
+}

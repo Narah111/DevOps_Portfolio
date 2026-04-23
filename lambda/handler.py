@@ -7,7 +7,7 @@ from bugs import get_all_bugs, create_bug, update_bug, delete_bug
 def lambda_handler(event, context):
     method = event['httpMethod']
     path = event['path']
-    headers = get_cors_headers()
+    headers = get_cors_headers(event)
 
     # CORS preflight
     if method == 'OPTIONS':

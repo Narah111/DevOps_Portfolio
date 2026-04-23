@@ -7,10 +7,25 @@ USER_POOL_ID = os.environ['USER_POOL_ID']
 CLIENT_ID = os.environ['CLIENT_ID']
 FRONTEND_URL = os.environ['FRONTEND_URL']
 
-def get_cors_headers():
+ALLOWED_ORIGINS = [
+    FRONTEND_URL,
+    'https://bugtracker.se',
+    'https://www.bugtracker.se'
+]
+
+def get_cors_headers(event=None):
+    origin = ''
+    if event:
+        origin = event.get('headers', {}).get('origin', '') or \
+                 event.get('headers', {}).get('Origin', '')
+    
+    allowed_origin = FRONTEND_URL
+    if origin in ALLOWED_ORIGINS:
+        allowed_origin = origin
+
     return {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': FRONTEND_URL,
+        'Access-Control-Allow-Origin': allowed_origin,
         'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Credentials': 'true'

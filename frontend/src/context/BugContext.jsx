@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 import { getAllBugs } from '../api/bugsApi'
+import { AuthContext } from './AuthContext'
 
 export const BugContext = createContext()
 
@@ -7,10 +8,16 @@ export function BugProvider({ children }) {
   const [bugs, setBugs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    fetchBugs()
-  }, [])
+    if (user) {
+      fetchBugs()
+    } else {
+      setLoading(false)
+      setBugs([])
+    }
+  }, [user])
 
   const fetchBugs = async () => {
     try {
@@ -25,30 +32,12 @@ export function BugProvider({ children }) {
     }
   }
 
-  const addBug = (newBug) => {
-    setBugs(prev => [newBug, ...prev])
-  }
-
-  const updateBug = (updatedBug) => {
-    setBugs(prev => prev.map(bug =>
-      bug.id === updatedBug.id ? updatedBug : bug
-    ))
-  }
-
-  const removeBug = (bugId) => {
-    setBugs(prev => prev.filter(bug => bug.id !== bugId))
-  }
+  const addBug = (newBug) => setBugs(prev => [newBug, ...prev])
+  const updateBug = (updatedBug) => setBugs(prev => prev.map(bug => bug.id === updatedBug.id ? updatedBug : bug))
+  const removeBug = (bugId) => setBugs(prev => prev.filter(bug => bug.id !== bugId))
 
   return (
-    <BugContext.Provider value={{
-      bugs,
-      loading,
-      error,
-      setError,
-      addBug,
-      updateBug,
-      removeBug
-    }}>
+    <BugContext.Provider value={{ bugs, loading, error, setError, addBug, updateBug, removeBug }}>
       {children}
     </BugContext.Provider>
   )

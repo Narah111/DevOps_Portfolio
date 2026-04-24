@@ -26,7 +26,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {error && <div className="error">{error}</div>}
+        {error && user && <div className="error">{error}</div>}
 
         <div className="dashboard-content">
           <BugForm onSubmit={handleCreateBug} />

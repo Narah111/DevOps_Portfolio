@@ -126,6 +126,12 @@ def get_me():
         'family_name': user.get('family_name', '')
     })
 
+@app.route('/auth/logout', methods=['POST'])
+def logout():
+    response = make_response(jsonify({'message': 'Logged out successfully'}))
+    response.set_cookie('access_token', '', max_age=0, httponly=True, samesite='Lax')
+    return response
+
 # ─── Bug routes ───────────────────────────────────────────────────────────────
 
 @app.route('/bugs', methods=['GET'])

@@ -12,10 +12,12 @@ export function BugProvider({ children }) {
 
   useEffect(() => {
     if (user) {
+      setError(null)
       fetchBugs()
     } else {
       setLoading(false)
       setBugs([])
+      setError(null)
     }
   }, [user])
 

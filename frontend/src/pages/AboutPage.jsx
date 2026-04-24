@@ -9,7 +9,7 @@ function AboutPage() {
       <nav className="about-nav">
         <span className="about-logo">Bug<span>Tracker</span></span>
         <div className="about-nav-links">
-          <button onClick={() => navigate('/')} className="btn-ghost">← Back</button>
+          <button onClick={() => navigate(-1)} className="btn-ghost">← Back</button>
           <button onClick={() => navigate('/login')} className="btn-primary">Sign in</button>
         </div>
       </nav>

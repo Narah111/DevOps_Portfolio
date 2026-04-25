@@ -1,0 +1,12 @@
+# Project configuration
+project_name: bug-tracker
+github_username: Narah111
+aws_region: eu-north-1
+
+# S3 state bucket
+state_bucket: bug-tracker-tfstate-narah111
+
+# Paths
+terraform_dir: "{{ playbook_dir }}/../../terraform"
+frontend_dir: "{{ playbook_dir }}/../../frontend"
+root_dir: "{{ playbook_dir }}/../.."

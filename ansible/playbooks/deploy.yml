@@ -1,0 +1,74 @@
+---
+- name: Deploy BugTracker to AWS
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/config.yml
+
+  tasks:
+    - name: Create S3 state bucket
+      amazon.aws.s3_bucket:
+        name: "{{ state_bucket }}"
+        region: "{{ aws_region }}"
+        versioning: true
+        state: present
+      ignore_errors: true
+
+    - name: Initialize OpenTofu
+      command: tofu init -reconfigure
+      args:
+        chdir: "{{ terraform_dir }}"
+
+    - name: Apply OpenTofu
+      command: tofu apply -auto-approve -var="github_username={{ github_username }}"
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: tofu_output
+
+    - name: Get API URL from OpenTofu output
+      command: tofu output -raw api_url
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: api_url
+
+    - name: Get frontend bucket name
+      command: tofu output -raw frontend_bucket_name
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: bucket_name
+
+    - name: Get CloudFront distribution ID
+      command: tofu output -raw cloudfront_distribution_id
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: distribution_id
+
+    - name: Write frontend .env file
+      copy:
+        content: "VITE_API_URL={{ api_url.stdout | regex_replace('/bugs$', '') }}\n"
+        dest: "{{ frontend_dir }}/.env"
+
+    - name: Install frontend dependencies
+      command: npm install
+      args:
+        chdir: "{{ frontend_dir }}"
+
+    - name: Build React frontend
+      command: npm run build
+      args:
+        chdir: "{{ frontend_dir }}"
+
+    - name: Upload frontend to S3
+      command: aws s3 sync dist s3://{{ bucket_name.stdout }} --delete
+      args:
+        chdir: "{{ frontend_dir }}"
+
+    - name: Invalidate CloudFront cache
+      command: aws cloudfront create-invalidation --distribution-id {{ distribution_id.stdout }} --paths "/*"
+
+    - name: Print deployment summary
+      debug:
+        msg:
+          - "✅ Deployment complete!"
+          - "🌐 Frontend: https://www.bugtracker.se"
+          - "🔗 API: {{ api_url.stdout }}"

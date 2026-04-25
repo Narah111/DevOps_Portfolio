@@ -1,0 +1,52 @@
+---
+- name: Destroy BugTracker AWS infrastructure
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/config.yml
+
+  tasks:
+    - name: Get frontend bucket name
+      command: tofu output -raw frontend_bucket_name
+      args:
+        chdir: "{{ terraform_dir }}"
+      register: bucket_name
+      ignore_errors: true
+
+    - name: Empty frontend S3 bucket
+      command: aws s3 rm s3://{{ bucket_name.stdout }} --recursive
+      when: bucket_name.stdout != ""
+      ignore_errors: true
+
+    - name: Destroy OpenTofu infrastructure
+      command: tofu destroy -auto-approve -var="github_username={{ github_username }}"
+      args:
+        chdir: "{{ terraform_dir }}"
+
+    - name: Empty state bucket
+      command: >
+        aws s3api delete-objects
+        --bucket {{ state_bucket }}
+        --delete "$(aws s3api list-object-versions
+        --bucket {{ state_bucket }}
+        --query '{Objects: Versions[].{Key:Key,VersionId:VersionId}}'
+        --output json)"
+      ignore_errors: true
+
+    - name: Delete state bucket versions (delete markers)
+      command: >
+        aws s3api delete-objects
+        --bucket {{ state_bucket }}
+        --delete "$(aws s3api list-object-versions
+        --bucket {{ state_bucket }}
+        --query '{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}'
+        --output json)"
+      ignore_errors: true
+
+    - name: Remove state bucket
+      command: aws s3 rb s3://{{ state_bucket }}
+      ignore_errors: true
+
+    - name: Print destroy summary
+      debug:
+        msg: "✅ All AWS resources destroyed successfully!"

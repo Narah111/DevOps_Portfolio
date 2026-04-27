@@ -34,22 +34,18 @@ function LandingPage() {
 
       <section className="landing-features">
         <div className="feature-card">
-          <div className="feature-icon">⚡</div>
           <h3>Serverless</h3>
           <p>Powered by AWS Lambda and API Gateway. No servers to manage, scales automatically.</p>
         </div>
         <div className="feature-card">
-          <div className="feature-icon">🔒</div>
           <h3>Secure</h3>
           <p>Authentication via AWS Cognito. Your bugs are private and only visible to you.</p>
         </div>
         <div className="feature-card">
-          <div className="feature-icon">🚀</div>
           <h3>CI/CD</h3>
           <p>Deployed automatically via GitHub Actions every time code is pushed to main.</p>
         </div>
         <div className="feature-card">
-          <div className="feature-icon">🏗️</div>
           <h3>Infrastructure as Code</h3>
           <p>All AWS resources are defined and managed with OpenTofu. Reproducible and versioned.</p>
         </div>

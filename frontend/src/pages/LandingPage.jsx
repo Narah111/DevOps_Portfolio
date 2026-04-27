@@ -33,6 +33,9 @@ function LandingPage() {
       </main>
 
       <section className="landing-features">
+        <h2 className="section-title">Key Features</h2>
+        <div className='features-container'>
+        
         <div className="feature-card">
           <h3>Serverless</h3>
           <p>Powered by AWS Lambda and API Gateway. No servers to manage, scales automatically.</p>
@@ -48,6 +51,7 @@ function LandingPage() {
         <div className="feature-card">
           <h3>Infrastructure as Code</h3>
           <p>All AWS resources are defined and managed with OpenTofu. Reproducible and versioned.</p>
+        </div>
         </div>
       </section>
 

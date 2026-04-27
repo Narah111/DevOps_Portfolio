@@ -134,7 +134,7 @@ function AboutPage() {
             <div className="tech-category">
               <h3>Infrastructure</h3>
               <ul>
-                <li>OpenTofu (IaC)</li>
+                <li>OpenTofu/tf (IaC)</li>
                 <li>S3 + CloudFront</li>
                 <li>IAM + OIDC</li>
                 <li>GitHub Actions</li>

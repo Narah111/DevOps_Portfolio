@@ -8,6 +8,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  position: relative;
 }
 
 .navbar-logo {
@@ -58,4 +59,132 @@
 
 .navbar-about:hover {
   color: var(--text-primary);
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-primary);
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  /* viktigt för dropdown */
+  position: relative;
+}
+
+.navbar-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.navbar-logo span {
+  color: var(--accent);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Email */
+.navbar-email {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Logout button */
+.navbar-logout {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.navbar-logout:hover {
+  border-color: var(--high);
+  color: var(--high);
+}
+
+/* About button */
+.navbar-about {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.navbar-about:hover {
+  color: var(--text-primary);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-right {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    gap: 0.75rem;
+
+    width: 200px;
+
+    /* hidden by default */
+    display: none;
+
+    /* animation start */
+    opacity: 0;
+    transform: translateY(-10px);
+
+    /* styling */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease;
+  }
+
+  .navbar-right.active {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .navbar-email {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
 }

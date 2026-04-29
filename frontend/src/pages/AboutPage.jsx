@@ -209,7 +209,7 @@ function AboutPage() {
           <h2>View the source code</h2>
           <p>The full project — infrastructure, backend and frontend — is open source.</p>
           <a
-            href="https://github.com/Narah111"
+            href="https://github.com/Narah111/DevOps_Portfolio"
             target="_blank"
             rel="noreferrer"
             className="btn-primary btn-large"
@@ -221,7 +221,7 @@ function AboutPage() {
       </main>
 
       <footer className="about-footer">
-        <p>Built by Nasir Rahmanzada | React · AWS Lambda · DynamoDB · Cognito · OpenTofu</p>
+        <p>Built by Nasir Rahmanzada | React · AWS Lambda · DynamoDB · Cognito · OpenTofu · Ansible</p>
       </footer>
     </div>
   )

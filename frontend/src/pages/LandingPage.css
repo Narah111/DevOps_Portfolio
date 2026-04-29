@@ -194,6 +194,10 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .features-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .hero-buttons {
     flex-direction: column;
   }

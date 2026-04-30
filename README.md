@@ -2,36 +2,6 @@
 
 This repository is a small demo portfolio / bug-tracker that includes a React + Vite frontend, serverless lambda handlers, and Terraform infrastructure to deploy an API Gateway + Lambdas and related resources.
 
-Repository layout (frontend-focused)
-
-```text
-frontend/
-├── src/
-│   ├── api/
-│   │   └── bugsApi.js        ← alla API-anrop
-│   ├── context/
-│   │   └── BugContext.jsx    ← global state
-│   ├── hooks/
-│   │   └── useBugs.js        ← custom hook för bug-logik
-│   ├── pages/
-│   │   └── Dashboard.jsx     ← huvudsidan
-│   ├── components/
-│   │   ├── BugForm.jsx
-│   │   ├── BugForm.css
-│   │   ├── BugCard.jsx
-│   │   └── BugList.jsx
-│   ├── utils/
-│   │   └── helpers.js        ← hjälpfunktioner
-│   ├── App.jsx
-│   ├── App.css
-│   ├── main.jsx
-│   └── index.css
-├── public/
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
 Quick start — frontend
 
 1. Install dependencies

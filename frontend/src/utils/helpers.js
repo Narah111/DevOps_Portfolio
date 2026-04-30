@@ -1,24 +1,24 @@
-// Hjälpfunktion för att välja färg baserat på prioritet
+// helper function to get color based on priority
 export const getPriorityColor = (priority) => {
   switch (priority?.toLowerCase()) {
-    case 'high': return '#ff4d4f';   // Röd
-    case 'medium': return '#faad14'; // Gul/Orange
-    case 'low': return '#52c41a';    // Grön
-    default: return '#d9d9d9';      // Grå
+    case 'high': return '#ff4d4f';
+    case 'medium': return '#faad14';
+    case 'low': return '#52c41a';
+    default: return '#d9d9d9';
   }
 };
 
-// Hjälpfunktion för att välja färg baserat på status
+// helper function to get color based on status
 export const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
-    case 'open': return '#1890ff';        // Blå
-    case 'in progress': return '#fa8c16'; // Orange
-    case 'resolved': return '#52c41a';    // Grön
-    default: return '#8c8c8c';           // Grå
+    case 'open': return '#1890ff';
+    case 'in progress': return '#fa8c16';
+    case 'resolved': return '#52c41a';
+    default: return '#8c8c8c';
   }
 };
 
-// Hjälpfunktion för att snygga till datum
+// helper function to format dates
 export const formatDate = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);

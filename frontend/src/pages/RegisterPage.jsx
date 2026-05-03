@@ -105,81 +105,91 @@ function RegisterPage() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <button className="auth-back" onClick={() => navigate('/')}>
-          ← Back
-        </button>
-        <div className="auth-header">
-          <span className="auth-logo">Bug<span>Tracker</span></span>
-          <h2>Create an account</h2>
-          <p>Start tracking bugs for free</p>
-        </div>
-
-        {error && <div className="auth-error">{error}</div>}
-
-        <div className="auth-form">
-          <div className="form-row">
-            <div className="form-group">
-              <label>First name</label>
-              <input
-                type="text"
-                placeholder="Nasir"
-                value={name}
-                onChange={e => setName(e.target.value)}
-              />
-            </div>
-            <div className="form-group">
-              <label>Last name</label>
-              <input
-                type="text"
-                placeholder="Rahmanzada"
-                value={familyName}
-                onChange={e => setFamilyName(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="At least 8 characters"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Confirm password</label>
-            <input
-              type="password"
-              placeholder="Repeat your password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-          </div>
-          <button
-            className="auth-btn"
-            onClick={handleRegister}
-            disabled={loading || !email || !password || !confirmPassword || !name || !familyName}
-          >
-            {loading ? 'Creating account...' : 'Create account'}
-          </button>
-        </div>
-
-        <p className="auth-footer">
-          Already have an account? <Link to="/login">Sign in</Link>
-        </p>
+  <div className="auth-page">
+    <div className="auth-card">
+      <button className="auth-back" onClick={() => navigate('/')}>
+        ← Back
+      </button>
+      <div className="auth-header">
+        <span className="auth-logo">Bug<span>Tracker</span></span>
+        <h2>Create an account</h2>
+        <p>Start tracking bugs for free</p>
       </div>
+
+      {error && <div className="auth-error">{error}</div>}
+
+      <div className="auth-form">
+        <div className="form-row">
+          <div className="form-group">
+            {/* Kopplar etiketten till input via ID 'firstName' */}
+            <label htmlFor="firstName">First name</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="Nasir"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Rahmanzada"
+              value={familyName}
+              onChange={e => setFamilyName(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="At least 8 characters"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="Repeat your password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+          />
+        </div>
+
+        <button
+          className="auth-btn"
+          onClick={handleRegister}
+          disabled={loading || !email || !password || !confirmPassword || !name || !familyName}
+        >
+          {loading ? 'Creating account...' : 'Create account'}
+        </button>
+      </div>
+
+      <p className="auth-footer">
+        Already have an account? <Link to="/login">Sign in</Link>
+      </p>
     </div>
+  </div>
   )
 }
 

@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}  # ← du lägger till detta i GitHub senare
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }} # add this to your GitHub secrets
           aws-region: eu-north-1
 
       - name: Setup OpenTofu
@@ -33,7 +33,7 @@ jobs:
 
       - name: Terraform Apply
         working-directory: terraform
-        run: tofu apply -auto-approve -var="github_username=${{ secrets.GH_USERNAME }}"  # ← du lägger till detta i GitHub senare
+        run: tofu apply -auto-approve -var="github_username=${{ secrets.GH_USERNAME }}"
 
   deploy-frontend:
     name: Build and Deploy React Frontend
